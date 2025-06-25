@@ -1,0 +1,132 @@
+* {
+      box-sizing: border-box;
+    }
+
+   body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f6f6f6;
+  color: #333;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  height: auto;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-right: 60px; 
+}
+    .container {
+  max-width: 700px;      /* increased from 450px */
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;   /* slightly rounded corners */
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15); 
+  padding: 40px 70px;    /* more padding inside */
+}
+
+    .logo{
+         display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .logo img{
+        width: 180px;
+        height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #2e7c26;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 17px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 15px;
+      background-color: #2e7c26;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #25661f;
+    }
+
+    .forgot-link {
+      text-align: right;
+      margin-top: 10px;
+    }
+
+    .forgot-link a {
+      color: #2e7c26;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .forgot-link a:hover {
+      text-decoration: underline;
+    }
+
+    .tab-switch {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .tab-switch span {
+      color: #2e7c26;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .checkbox-group input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .checkbox-group a {
+      color: #2e7c26;
+      text-decoration: none;
+    }
+
+    .checkbox-group a:hover {
+      text-decoration: underline;
+    }
