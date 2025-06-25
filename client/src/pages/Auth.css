@@ -24,7 +24,7 @@
   width: 100%;
   background: #fff;
   border-radius: 12px;   /* slightly rounded corners */
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15); 
+  box-shadow: 17px 18px 35px rgba(0,0,0,0.15); 
   padding: 40px 70px;    /* more padding inside */
 }
 
@@ -66,6 +66,17 @@
       border-radius: 6px;
       font-size: 17px;
     }
+
+    input {
+  background-color: white;
+  color: #111;
+  border: 1px solid #aaa;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 
     .btn {
       width: 100%;
