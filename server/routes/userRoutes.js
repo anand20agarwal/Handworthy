@@ -4,12 +4,13 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const twilio = require('twilio');
-
+require('dotenv').config();
 // ✅ Use strings with quotes — corrected here
-const accountSid = 'AC68d1a854394f1cd4ee89af81485e5742';
-const authToken = '670f155e14815645e6a29b8954e22ef3';
-const twilioPhone = '+18566668918';
+const accountSid = process.env.TWILIO_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN;
+const twilioPhone = process.env.TWILIO_PHONE;
 const client = require('twilio')(accountSid, authToken);
+
 
 
 // Store OTPs in memory temporarily
