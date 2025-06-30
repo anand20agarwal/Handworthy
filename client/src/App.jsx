@@ -1,17 +1,22 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// App.jsx
+import { Routes, Route } from 'react-router-dom';
 import Auth from './pages/Auth';
 import Home from './pages/Home';
-import ForgotPassword from './pages/ForgotPassword';
+import ProtectedRoute from './pages/ProtectedRoute';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Auth />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/home" element={<Home />} />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Auth />} />
+      <Route
+        path="/home"
+        element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 }
 

@@ -4,6 +4,8 @@ import API from '../api';
 import './Auth.css';
 import logo from '../assets/logo.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Auth() {
   const [isLogin, setIsLogin] = useState(true);
@@ -16,6 +18,9 @@ export default function Auth() {
   });
 
   const [loginError, setLoginError] = useState('');
+  const [loginFieldErrors, setLoginFieldErrors] = useState({}); // Added for login field errors
+  const [signupError, setSignupError] = useState('');
+  const [fieldErrors, setFieldErrors] = useState({});
   const [otpSent, setOtpSent] = useState(false);
   const [otp, setOtp] = useState('');
   const [isOtpVerified, setIsOtpVerified] = useState(false);
@@ -25,10 +30,27 @@ export default function Auth() {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    setLoginError('');
 
-    if (!loginForm.email || !loginForm.password) {
-      setLoginError('Please fill in all login fields');
+    // Clear previous errors
+    setLoginError('');
+    setLoginFieldErrors({});
+
+    let errors = {};
+
+    // Individual field validations for login
+    if (!loginForm.email) {
+      errors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginForm.email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+
+    if (!loginForm.password) {
+      errors.password = 'Password is required';
+    }
+
+    // Set field errors if any
+    if (Object.keys(errors).length > 0) {
+      setLoginFieldErrors(errors);
       return;
     }
 
@@ -37,7 +59,28 @@ export default function Auth() {
       localStorage.setItem('token', res.data.token);
       navigate('/home');
     } catch (err) {
-      setLoginError(err.response?.data?.message || 'Login failed');
+      console.log('Login error:', err.response?.data); // Debug log
+      
+      // Handle specific error messages from backend
+      const errorMessage = err.response?.data?.message || err.response?.data?.error || '';
+      const statusCode = err.response?.status;
+      
+      // Check for specific error conditions
+      if (statusCode === 404 || 
+          errorMessage.toLowerCase().includes('user not found') || 
+          errorMessage.toLowerCase().includes('email not registered') ||
+          errorMessage.toLowerCase().includes('not found')) {
+        setLoginError('Email not registered');
+      } else if (statusCode === 401 || 
+                 errorMessage.toLowerCase().includes('invalid password') || 
+                 errorMessage.toLowerCase().includes('incorrect password') ||
+                 errorMessage.toLowerCase().includes('wrong password') ||
+                 errorMessage.toLowerCase().includes('password')) {
+        setLoginError('Incorrect password');
+      } else {
+        // Fallback to original error message or generic message
+        setLoginError(errorMessage || 'Login failed');
+      }
     }
   };
 
@@ -45,34 +88,88 @@ export default function Auth() {
     e.preventDefault();
     const { fname, lname, email, phone, address, pincode, password, confirm, privacy } = signupForm;
 
-    if (!lname || !phone || !pincode || !password || !confirm) {
-      alert('Fill all required fields');
+    // Clear previous errors
+    setSignupError('');
+    setFieldErrors({});
+
+    let errors = {};
+
+    // Individual field validations
+    if (!lname) {
+      errors.lname = 'Last name is required';
+    }
+
+    if (!email) {
+      errors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+
+    if (!phone) {
+      errors.phone = 'Phone number is required';
+    } else if (!/^\d{10}$/.test(phone)) {
+      errors.phone = 'Phone number must be exactly 10 digits';
+    }
+
+    if (!pincode) {
+      errors.pincode = 'Pincode is required';
+    } else if (!/^\d{6}$/.test(pincode)) {
+      errors.pincode = 'Pincode must be exactly 6 digits';
+    }
+
+    if (!password) {
+      errors.password = 'Password is required';
+    } else if (password.length < 6) {
+      errors.password = 'Password must be at least 6 characters long';
+    }
+
+    if (!confirm) {
+      errors.confirm = 'Please confirm your password';
+    } else if (password && confirm && password !== confirm) {
+      errors.confirm = 'Passwords do not match';
+    }
+
+    // Set field errors if any
+    if (Object.keys(errors).length > 0) {
+      setFieldErrors(errors);
       return;
     }
-    if (password !== confirm) {
-      alert('Passwords do not match');
-      return;
-    }
+
+    // Other validations
     if (!privacy) {
-      alert('Agree to the privacy policy');
+      setSignupError('Agree to the privacy policy');
       return;
     }
     if (!isOtpVerified) {
-      alert('Please verify your phone number with OTP');
+      setSignupError('Please verify your phone number with OTP');
       return;
     }
 
     try {
       await API.post('/signup', signupForm);
-      alert('Signup successful');
+      toast.success('Signup successful');
       setIsLogin(true);
     } catch (err) {
-      alert(err.response?.data?.message || 'Signup failed');
+      setSignupError(err.response?.data?.message || 'Signup failed');
     }
   };
 
   const sendOtp = async () => {
-    if (!signupForm.phone) return alert("Enter phone number first");
+    if (!signupForm.phone) {
+      setFieldErrors({...fieldErrors, phone: 'Enter phone number first'});
+      return;
+    }
+
+    // Validate phone number before sending OTP
+    if (!/^\d{10}$/.test(signupForm.phone)) {
+      setFieldErrors({...fieldErrors, phone: 'Phone number must be exactly 10 digits'});
+      return;
+    }
+
+    // Clear phone error if validation passes
+    const newErrors = {...fieldErrors};
+    delete newErrors.phone;
+    setFieldErrors(newErrors);
 
     const formattedPhone = signupForm.phone.startsWith('+')
       ? signupForm.phone
@@ -81,15 +178,15 @@ export default function Auth() {
     try {
       await API.post('/send-otp', { phone: formattedPhone });
       setOtpSent(true);
-      alert("OTP sent to your phone");
+      toast.success("OTP sent to your phone");
     } catch (err) {
       console.error('OTP send failed:', err);
-      alert("Failed to send OTP");
+      setFieldErrors({...fieldErrors, phone: 'Failed to send OTP'});
     }
   };
 
   const verifyOtp = async () => {
-    if (!otp) return alert("Enter OTP");
+    if (!otp) return toast.warning("Enter OTP");
 
     const formattedPhone = signupForm.phone.startsWith('+')
       ? signupForm.phone
@@ -103,25 +200,23 @@ export default function Auth() {
 
       if (res.data.success) {
         setIsOtpVerified(true);
-        alert("Phone number verified");
+        toast.success("Phone number verified");
       } else {
-        alert("Invalid OTP");
+        toast.error("Invalid OTP");
       }
     } catch (err) {
       console.error("OTP verification failed:", err);
-      alert("OTP verification failed");
+      toast.error("OTP verification failed");
     }
   };
 
-  // 🔐 Shared input with eye toggle
   const renderPasswordInput = (value, onChange, visible, toggle) => (
     <div style={{ position: 'relative' }}>
       <input
         type={visible ? 'text' : 'password'}
         value={value}
         onChange={onChange}
-        required
-        style={{ width: '100%', paddingRight: '30px' }}
+        style={{ width: '100%', paddingRight: '30px', background: '#fff' }}
       />
       <span
         onClick={toggle}
@@ -149,24 +244,25 @@ export default function Auth() {
       {isLogin ? (
         <form onSubmit={handleLoginSubmit}>
           <div className="form-group">
-            <label>Email:</label>
+            <label>Email *</label>
             <input
               type="email"
               value={loginForm.email}
               onChange={e => setLoginForm({ ...loginForm, email: e.target.value })}
-              required
             />
+            {loginFieldErrors.email && <p style={{ color: 'red', fontSize: '12px', margin: '5px 0 0 0' }}>* {loginFieldErrors.email}</p>}
           </div>
           <div className="form-group">
-            <label>Password:</label>
+            <label>Password *</label>
             {renderPasswordInput(
               loginForm.password,
               e => setLoginForm({ ...loginForm, password: e.target.value }),
               showPassword,
               () => setShowPassword(!showPassword)
             )}
+            {loginFieldErrors.password && <p style={{ color: 'red', fontSize: '12px', margin: '5px 0 0 0' }}>* {loginFieldErrors.password}</p>}
           </div>
-          {loginError && <p style={{ color: 'red', marginBottom: '10px' }}>{loginError}</p>}
+          {loginError && <p style={{ color: 'red', marginBottom: '10px' }}>* {loginError}</p>}
           <button type="submit" className="btn">Login</button>
           <div className="forgot-link">
             <a href="/forgot-password">Forgot Password or Email?</a>
@@ -176,75 +272,136 @@ export default function Auth() {
         <form onSubmit={handleSignupSubmit}>
           {['fname', 'lname', 'email', 'address', 'pincode'].map(field => (
             <div className="form-group" key={field}>
-              <label>{field.charAt(0).toUpperCase() + field.slice(1)}:</label>
+              <label>
+                {field === 'fname' ? 'First Name' : 
+                 field === 'lname' ? 'Last Name' : 
+                 field.charAt(0).toUpperCase() + field.slice(1)}
+                {field === 'lname' || field === 'email' || field === 'pincode' ? ' *' : ''}
+              </label>
               <input
                 type={field === 'email' ? 'email' : field === 'pincode' ? 'tel' : 'text'}
                 value={signupForm[field]}
                 onChange={e => setSignupForm({ ...signupForm, [field]: e.target.value })}
-                required
+                placeholder={field === 'pincode' ? 'Enter 6-digit pincode' : ''}
               />
+              {fieldErrors[field] && <p style={{ color: 'red', fontSize: '12px', margin: '5px 0 0 0' }}>* {fieldErrors[field]}</p>}
             </div>
           ))}
 
           <div className="form-group">
-            <label>Password:</label>
+            <label>Password</label>
             {renderPasswordInput(
               signupForm.password,
               e => setSignupForm({ ...signupForm, password: e.target.value }),
               showPassword,
               () => setShowPassword(!showPassword)
             )}
+            {fieldErrors.password && <p style={{ color: 'red', fontSize: '12px', margin: '5px 0 0 0' }}>* {fieldErrors.password}</p>}
           </div>
 
           <div className="form-group">
-            <label>Confirm Password:</label>
+            <label>Confirm Password *</label>
             {renderPasswordInput(
               signupForm.confirm,
               e => setSignupForm({ ...signupForm, confirm: e.target.value }),
               showConfirm,
               () => setShowConfirm(!showConfirm)
             )}
+            {fieldErrors.confirm && <p style={{ color: 'red', fontSize: '12px', margin: '5px 0 0 0' }}>* {fieldErrors.confirm}</p>}
           </div>
 
           <div className="form-group">
-            <label>Phone:</label>
+            <label>Phone *</label>
             <input
-              type="tel"
-              value={signupForm.phone}
-              onChange={e => setSignupForm({ ...signupForm, phone: e.target.value })}
-              required
-            />
+            type="tel"
+            value={signupForm.phone}
+            onChange={e => setSignupForm({ ...signupForm, phone: e.target.value })}
+            disabled={isOtpVerified}
+            placeholder="Enter 10-digit phone number"
+          />
+            {fieldErrors.phone && <p style={{ color: 'red', fontSize: '12px', margin: '5px 0 0 0' }}>* {fieldErrors.phone}</p>}
+
             {!otpSent ? (
-              <button type="button" className="btn" style={{ marginTop: '10px' }} onClick={sendOtp}>
+              <button
+                type="button"
+                className="btn"
+                style={{ marginTop: '10px' }}
+                onClick={sendOtp}
+                disabled={isOtpVerified}
+              >
                 Send OTP
               </button>
             ) : (
-              <>
-                <div style={{ marginTop: '10px' }}>
-                  <input
-                    type="text"
-                    placeholder="Enter OTP"
-                    value={otp}
-                    onChange={e => setOtp(e.target.value)}
-                  />
-                  <button type="button" className="btn" style={{ marginTop: '10px' }} onClick={verifyOtp}>
+              <div style={{ marginTop: '10px' }}>
+                <input
+                  type="text"
+                  placeholder="Enter OTP"
+                  value={otp}
+                  onChange={e => setOtp(e.target.value)}
+                  disabled={isOtpVerified}
+                />
+                <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={verifyOtp}
+                    disabled={isOtpVerified}
+                  >
                     Verify OTP
                   </button>
+                  <button
+                    type="button"
+                    className="btn btn-outline"
+                    onClick={sendOtp}
+                    disabled={isOtpVerified}
+                  >
+                    Resend OTP
+                  </button>
                 </div>
-              </>
+              </div>
             )}
             {isOtpVerified && <p style={{ color: 'green' }}>Phone verified ✅</p>}
           </div>
 
-          <div className="checkbox-group">
-            <input
-              type="checkbox"
-              checked={signupForm.privacy}
-              onChange={e => setSignupForm({ ...signupForm, privacy: e.target.checked })}
-              required
-            />
-            <label>I agree to the <a href="/privacy.html" target="_blank">Privacy Policy</a></label>
-          </div>
+        <div className="checkbox-group" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <input
+            type="checkbox"
+            id="privacyCheck"
+            checked={signupForm.privacy}
+            onChange={e => setSignupForm({ ...signupForm, privacy: e.target.checked })}
+            style={{ 
+              width: '20px',
+              height: '20px',
+              backgroundColor: signupForm.privacy ? 'black' : 'white',
+              border: '2px solid black',
+              cursor: 'pointer',
+              appearance: 'none',
+              WebkitAppearance: 'none',
+              position: 'relative',
+              flexShrink: 0
+            }}
+          />
+          {signupForm.privacy && (
+            <span style={{
+              position: 'absolute',
+              left: '3px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: 'white',
+              fontSize: '20px',
+              fontWeight: '900',
+              pointerEvents: 'none',
+              textShadow: '0 0 2px white, 1px 1px 0 white, -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white'
+            }}>
+              ✓
+            </span>
+          )}
+          <label htmlFor="privacyCheck">
+            I agree to the <a href="/privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+          </label>
+        </div>
+
+          {signupError && <p style={{ color: 'red', marginBottom: '10px' }}>* {signupError}</p>}
           <button type="submit" className="btn">Create Account</button>
         </form>
       )}
@@ -256,6 +413,8 @@ export default function Auth() {
           <>Already have an account? <span>Login</span></>
         )}
       </div>
-    </div>
-  );
+
+      <ToastContainer position="top-center" autoClose={3000} />
+    </div>
+  );
 }

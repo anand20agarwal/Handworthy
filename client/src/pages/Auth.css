@@ -13,6 +13,19 @@
   height: auto;
 }
 
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid #aaa;
+  color: #555;
+  padding: 5px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.btn-outline:hover {
+  background-color: #eee;
+}
+
+
 .wrapper {
   width: 100%;
   display: flex;
@@ -141,3 +154,33 @@
     .checkbox-group a:hover {
       text-decoration: underline;
     }
+
+
+input[type="checkbox"]#privacyCheck {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid black;
+  cursor: pointer;
+  position: relative;
+  background-color: white;
+}
+
+
+input[type="checkbox"]#privacyCheck:checked {
+  background-color: #007bff; /* Blue */
+  border-color: #007bff;
+}
+
+
+input[type="checkbox"]#privacyCheck:checked::after {
+  content: '✓';
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -58%);
+  font-size: 16px;
+  font-weight: bold;
+}
