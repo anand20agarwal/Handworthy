@@ -1,4 +1,3 @@
-// Auth.jsx
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import API from '../api';
@@ -14,7 +13,7 @@ export default function Auth({ isLoginDefault = true }) {
 
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
   const [signupForm, setSignupForm] = useState({
-    fname: '', lname: '', email: '', phone: '',
+    fname: '', lastName: '', email: '', phone: '',
     address: '', pincode: '', password: '', confirm: '', privacy: false
   });
 
@@ -61,9 +60,9 @@ export default function Auth({ isLoginDefault = true }) {
     e.preventDefault();
     setSignupError('');
     setFieldErrors({});
-    const { lname, email, phone, pincode, password, confirm, privacy } = signupForm;
+    const { lastName, email, phone, pincode, password, confirm, privacy } = signupForm;
     let errors = {};
-    if (!lname) errors.lname = 'Last name is required';
+    if (!lastName) errors.lastName = 'Last name is required';
     if (!email) errors.email = 'Email is required';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       errors.email = 'Please enter a valid email address';
@@ -199,17 +198,26 @@ export default function Auth({ isLoginDefault = true }) {
         </form>
       ) : (
         <form onSubmit={handleSignupSubmit}>
-          {['fname', 'lname', 'email', 'address', 'pincode'].map(field => (
-            <div className="form-group" key={field}>
-              <label>{field === 'fname' ? 'First Name' : field.charAt(0).toUpperCase() + field.slice(1)}{field !== 'fname' ? ' *' : ''}</label>
-              <input
-                type={field === 'email' ? 'email' : 'text'}
-                value={signupForm[field]}
-                onChange={e => setSignupForm({ ...signupForm, [field]: e.target.value })}
-              />
-              {fieldErrors[field] && <p className="error">* {fieldErrors[field]}</p>}
-            </div>
-          ))}
+          {['fname', 'lastName', 'email', 'address', 'pincode'].map(field => (
+  <div className="form-group" key={field}>
+    <label>
+      {field === 'fname'
+        ? 'First Name'
+        : field === 'lastName'
+          ? 'Last Name'
+          : field.charAt(0).toUpperCase() + field.slice(1)}
+      {field !== 'address' && field !== 'fname' ? ' *' : ''}
+      
+    </label>
+    <input
+      type={field === 'email' ? 'email' : 'text'}
+      value={signupForm[field]}
+      onChange={e => setSignupForm({ ...signupForm, [field]: e.target.value })}
+    />
+    {fieldErrors[field] && <p className="error">* {fieldErrors[field]}</p>}
+  </div>
+))}
+
           <div className="form-group">
             <label>Password *</label>
             {renderPasswordInput(

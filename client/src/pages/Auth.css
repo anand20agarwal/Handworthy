@@ -184,3 +184,7 @@ input[type="checkbox"]#privacyCheck:checked::after {
   font-size: 16px;
   font-weight: bold;
 }
+
+p.error{
+  color: red;
+}
