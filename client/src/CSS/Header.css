@@ -1,0 +1,133 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #fdfdfd;
+  color: #111;
+  padding-bottom: 90px; /* enough space for bottom nav on small screens */
+}
+
+/* ============================
+   HEADER STYLES
+============================= */
+
+.header {
+  background-color: #2e7c26;
+  padding: 20px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.header img.logo {
+  filter: brightness(0) invert(1);
+  width: 150px;
+  margin: 0;
+}
+
+.header img.cart {
+  width: 28px;
+  margin-left: 20px;
+}
+
+/* ============================
+   NAVBAR LINKS (Desktop Only)
+============================= */
+
+.navbar {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.navbar span {
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.navbar span:hover{
+  color: rgb(138, 138, 239);
+}
+
+.logout-btn {
+    background-color: transparent;
+    color: #fff;
+    margin: 0px;
+    padding: 5px 12px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 17px;
+    margin-left: 3px;
+    margin-top: 2px;
+    transition: background-color 0.2s, color 0.2s;
+
+}
+
+.logout-btn:hover {
+  background-color: transparent;
+  color: red;
+}
+
+/* ============================
+   SIDEBAR VISIBILITY
+============================= */
+
+/* Hide nav on mobile, show Sidebar toggle instead */
+@media (max-width: 599px) {
+  .navbar {
+    display: none;
+  }
+}
+
+/* Show nav on tablet & desktop, Sidebar toggle hidden via Sidebar.css */
+@media (min-width: 600px) {
+  .navbar {
+    display: flex;
+  }
+}
+
+/* ============================
+   CART ICON
+============================= */
+
+.cart {
+  margin-right: 20px;
+}
+
+/* Optional: adjust logo for bigger screens */
+@media (min-width: 900px) {
+  .header img.logo {
+    width: 180px;
+  }
+}
+
+/* ============================
+   BOTTOM NAVBAR (if needed)
+============================= */
+
+/* .bottom-nav {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 500px;
+  background-color: #2e7c26;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 12px 0;
+  border-radius: 40px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 100;
+}
+
+.bottom-nav img {
+  width: 24px;
+} */
