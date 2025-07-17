@@ -1,0 +1,28 @@
+.footer-mobile {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #000000;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 500px;
+}
+
+.footer-links a img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}

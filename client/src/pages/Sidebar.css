@@ -1,8 +1,9 @@
+/* === Sidebar container === */
 .sidebar {
   position: fixed;
   top: 0;
   right: 0;
-  width: 200px;
+  width: 210px;
   height: 100%;
   background-color: #333;
   color: white;
@@ -16,37 +17,46 @@
   transform: translateX(0);
 }
 
+/* === Close button inside sidebar === */
 .close-btn {
   position: absolute;
-  top: 15px;
+  top: 8px;
   left: 2px;
   background: transparent;
   color: white;
   border: none;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
   border-radius: 5px;
 }
 
+/* === Hamburger / 3-dot toggle button === */
 .menu-btn {
   position: fixed;
-  top: 8px;
-  right: 4px;
+  top: -6px;
+  right: -2px;
   background: transparent;
   color: #333;
   border: none;
-  font-size: 24px;
+  font-size: 30px;
   cursor: pointer;
   z-index: 1100;
 }
 
-/* Hide the 3-dot toggle button on tablet & desktop */
+.menu-btn:focus,
+.close-btn:focus {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Hide the toggle button on larger screens */
 @media (min-width: 600px) {
   .menu-btn {
     display: none;
   }
 }
 
+/* === Menu container === */
 .menu-button {
   display: flex;
   flex-direction: column;
@@ -54,38 +64,97 @@
   height: 100%;
 }
 
-.menu-button a {
+.h2-menu {
+  margin-top: -3px;
+  font-size: 25px;
+  margin-bottom: 5px;
+}
+
+/* === Menu items === */
+.menu-button button {
+  background: transparent;
+  border: none;
   display: block;
   width: 100%;
   text-align: center;
   color: white;
-  padding: 16px;
+  padding: 6px;
   margin-top: 10px;
   text-decoration: none;
-  font-size: 18px;
-}
-
-.menu-button a:hover {
-  background-color: #575757;
-}
-
-.logout-btn {
-  background: transparent;
-  color: white;
-  border: none;
-  padding: 16px;
-  margin-top: 10px;
-  text-align: center;
-  width: 100%;
   font-size: 18px;
   cursor: pointer;
 }
 
-.logout-btn:hover {
+.menu-button button:hover,
+.menu-button button:focus {
   background-color: #575757;
-  color: red;
+  outline: none;
 }
 
-.h2-menu {
-  font-size: 25px;
+/* === Login button === */
+.login-btn {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.login-btn:hover {
+  color: #aaa;
+  transform: scale(1.05);
+}
+
+/* === Profile dropdown === */
+.profile-wrapper {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.profile-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  width: 100%;
+  padding: 12px;
+}
+
+/* .profile-btn:hover,
+.profile-btn:focus {
+  background-color: #575757;
+} */
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  /* left: 0; */
+  background-color: #444;
+  width: 100%;
+  border: 1px solid #555;
+  z-index: 1200;
+}
+
+.dropdown-menu button {
+  background: transparent;
+  border: none;
+  display: block;
+  width: 100%;
+  padding: 12px;
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.dropdown-menu button:hover,
+.dropdown-menu button:focus {
+  background-color: #575757;
+  outline: none;
+}
+
+/* === Accessibility focus state === */
+.menu-button button:focus,
+.dropdown-menu button:focus {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
 }

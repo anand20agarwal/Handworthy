@@ -1,0 +1,25 @@
+.searchbar-container {
+  flex: 1;
+}
+
+.search-bar-pc {
+  width: 100%;
+  max-width: 480px;
+
+  height: 33px;       /* ✅ sets total height (adjust as needed) */
+  padding: 2px 8px;   /* less vertical padding helps too */
+  font-size: 14px;    /* smaller text */
+
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+  line-height: normal;  /* ✅ ensures no weird line-height pushing height up */
+  box-sizing: border-box; /* ✅ includes padding/border inside height */
+}
+
+@media (max-width: 599px) {
+  .search-bar-pc {
+    max-width: 150px;
+    display: block;
+  }
+}

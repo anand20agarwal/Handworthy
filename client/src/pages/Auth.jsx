@@ -54,7 +54,7 @@ export default function Auth({ isLoginDefault = true }) {
     try {
       const res = await API.post('/login', loginForm);
       localStorage.setItem('token', res.data.token);
-      navigate('/home');
+      navigate('/');
     } catch (err) {
       const errorMessage = err.response?.data?.message || '';
       const statusCode = err.response?.status;

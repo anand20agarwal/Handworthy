@@ -1,7 +1,22 @@
-/* .home {
-  position: relative;
-} */
+/* Overall Home Container */
+.home {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
 
+/* Ensure footer doesn't overlap content */
+.content {
+  flex: 1;
+  padding: 20px;
+  padding-bottom: 80px; /* height of footer */
+  box-sizing: border-box;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Search Box (Top) */
 .search-container {
   position: relative;
   display: flex;
@@ -29,33 +44,28 @@
   pointer-events: none;
 }
 
-.content {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
+/* Search Overlay */
 .search-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 255, 255, 0.8); /* semi-transparent white */
-  backdrop-filter: blur(4px);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(13px);
   display: flex;
   justify-content: center;
-  align-items: top;
-  z-index: 999; /* make sure it's on top */
+  align-items: flex-start;
+  z-index: 999;
 }
 
 .search-overlay .overlay-content {
-      margin-top: 116px;
-    position: relative;
-    display: flex;
-    align-items: start;
-    width: 80%;
-    max-width: 500px;
+  margin-top: 116px;
+  position: relative;
+  display: flex;
+  align-items: start;
+  width: 80%;
+  max-width: 680px;
 }
 
 .search-overlay .overlay-content input {
@@ -63,9 +73,9 @@
   padding: 14px 16px;
   padding-left: 40px;
   border-radius: 30px;
-  border: none;
   font-size: 18px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
   outline: none;
 }
 
@@ -75,20 +85,16 @@
   width: 24px;
   height: 24px;
   pointer-events: none;
-  margin-top: 11px;
+  margin-top: 13px;
 }
 
 .search-overlay .close-btn {
-      position: absolute;
-    /* right: -550px; */
-    left: -35px;
-    background: none;
-    margin-top: -10px;
-    border: none;
-    padding: 0;
-    font-size: 30px;
-    cursor: pointer;
-}
-.close-btn{
+  position: absolute;
+  left: -35px;
+  margin-top: -10px;
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
   color: black;
 }

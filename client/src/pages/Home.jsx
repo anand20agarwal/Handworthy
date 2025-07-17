@@ -2,64 +2,41 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import '../CSS/Home.css';
-import Search from '../Images/Search.png';
+import FooterPC from '../Components-Desktop/FooterPc';
+import Footer from '../Components-Mobile/Footer';
 
 export default function Home() {
   const navigate = useNavigate();
-  const [showSearchOverlay, setShowSearchOverlay] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 599);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) navigate('/');
-  }, [navigate]);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 599);
+    };
 
-  const handleSearchKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      setShowSearchOverlay(false);
-      console.log('Search submitted:', e.target.value);
-    }
-  };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <div className="home">
       <Header />
-
-      {/* Regular search bar under header */}
-      <div className="search-container">
-        <img src={Search} alt="Search" className="search-icon" />
-        <input
-          type="text"
-          placeholder="Search..."
-          onFocus={() => setShowSearchOverlay(true)}
-          readOnly // makes sure it doesn't type here
-        />
-      </div>
-
       <div className="content">
         <h1>Welcome to the Home Page!</h1>
-        <p>This is your protected content.</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
       </div>
-
-      {/* Overlay search modal */}
-      {showSearchOverlay && (
-        <div className="search-overlay">
-          <div className="overlay-content">
-            <img src={Search} alt="Search" className="search-icon" />
-            <input
-              type="text"
-              placeholder="Search..."
-              autoFocus
-              onKeyDown={handleSearchKeyDown}
-            />
-            <button
-              className="close-btn"
-              onClick={() => setShowSearchOverlay(false)}
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-      )}
+      {isMobile ? <Footer /> : <FooterPC />}
     </div>
   );
 }
