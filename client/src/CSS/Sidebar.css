@@ -33,8 +33,8 @@
 /* === Hamburger / 3-dot toggle button === */
 .menu-btn {
   position: fixed;
-  top: -6px;
-  right: -2px;
+  top: -12px;
+  right: -24px;
   background: transparent;
   color: #333;
   border: none;

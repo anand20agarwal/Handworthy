@@ -15,6 +15,7 @@
 }
 
 .footer-links {
+   filter: brightness(0) invert(1);
   display: flex;
   justify-content: space-around;
   width: 100%;

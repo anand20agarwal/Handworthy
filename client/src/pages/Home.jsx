@@ -8,6 +8,17 @@ import Footer from '../Components-Mobile/Footer';
 export default function Home() {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 599);
+  const [count, setCount] = useState(0);
+
+
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCount((count) => count + 1)
+    }, 1000);
+  });
+
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,19 +33,7 @@ export default function Home() {
     <div className="home">
       <Header />
       <div className="content">
-        <h1>Welcome to the Home Page!</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+       <h1> the count is {count}</h1>
       </div>
       {isMobile ? <Footer /> : <FooterPC />}
     </div>

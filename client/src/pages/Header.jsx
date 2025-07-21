@@ -99,7 +99,7 @@ export default function Header() {
           <span className="quality">Quality Check</span>
           <span>Warranty</span>
           <span>Support</span>
-          <span>Blog</span>
+          {/* <span>Blog</span> */}
           <span>About</span>
 
           {!isLoggedIn ? (

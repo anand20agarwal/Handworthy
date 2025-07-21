@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import API from '../api'; // your Axios instance
-import './Auth.css';
+import '../CSS/Auth.css';
 import logo from '../assets/logo.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
