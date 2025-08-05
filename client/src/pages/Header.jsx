@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { auth } from '../firebase';
 import Sidebar from './Sidebar';
 import Logo from '../Images/logo.png';
 import { useNavigate } from 'react-router-dom';
@@ -15,16 +16,12 @@ export default function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token);
+    // Listen for Firebase Auth state changes
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setIsLoggedIn(!!user || !!localStorage.getItem('token'));
+    });
+    return () => unsubscribe();
   }, []);
-
-  // const handleSearchKeyDown = (e) => {
-  //   if (e.key === 'Enter') {
-  //     setShowSearchOverlay(false);
-  //     console.log('Search submitted:', e.target.value);
-  //   }
-  // };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -39,12 +36,15 @@ export default function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    if (auth.currentUser) {
+      auth.signOut();
+    }
     setIsLoggedIn(false);
-    navigate('/login');
+    navigate('/auth');
   };
 
   const handleLogin = () => {
-    navigate('/login');
+    navigate('/auth');
   };
 
   const toggleDropdown = () => {
@@ -52,7 +52,7 @@ export default function Header() {
   };
 
   const handleProfile = () => {
-    navigate('/profile');
+    navigate('/account');
     setIsDropdownOpen(false);
   };
 
@@ -84,7 +84,9 @@ export default function Header() {
   return (
     <>
       <div className="header">
-        <img src={Logo} alt="Handworthy Logo" className="logo" />
+        <img src={Logo} alt="Handworthy Logo" className="logo" 
+        onClick={() => navigate('/')}
+        />
           <Searchbar/>
         {/* <input
           type="text"
@@ -94,7 +96,7 @@ export default function Header() {
         /> */}
 
         <nav className="navbar">
-          <span>Home</span>
+          <span onClick={() => navigate('/')}>Home</span>
           <span className="why">Why Handworthy</span>
           <span className="quality">Quality Check</span>
           <span>Warranty</span>
@@ -138,6 +140,13 @@ export default function Header() {
             src="https://cdn-icons-png.flaticon.com/512/34/34568.png"
             alt="Cart Icon"
             className="cart"
+            onClick={() => {
+              if (isLoggedIn) {
+                navigate('/cart');
+              } else {
+                navigate('/auth');
+              }
+            }}
           />
         </div>
 

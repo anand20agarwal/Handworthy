@@ -4,6 +4,7 @@ import Header from './Header';
 import '../CSS/Home.css';
 import FooterPC from '../Components-Desktop/FooterPc';
 import Footer from '../Components-Mobile/Footer';
+import '../CSS/AccountCart.css';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -31,11 +32,11 @@ export default function Home() {
 
   return (
     <div className="home">
-      <Header />
+      {/* <Header /> */}
       <div className="content">
        <h1> the count is {count}</h1>
       </div>
-      {isMobile ? <Footer /> : <FooterPC />}
+      {/* {isMobile ? <Footer /> : <FooterPC />} */}
     </div>
   );
 }

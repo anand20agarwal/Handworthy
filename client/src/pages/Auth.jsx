@@ -25,9 +25,9 @@ export default function Auth({ isLoginDefault = true }) {
   const [fieldErrors, setFieldErrors] = useState({});
 
   // OTP states
-  const [otpSent, setOtpSent] = useState(false);
-  const [otp, setOtp] = useState('');
-  const [isOtpVerified, setIsOtpVerified] = useState(false);
+  // const [otpSent, setOtpSent] = useState(false);
+  // const [otp, setOtp] = useState('');
+  // const [isOtpVerified, setIsOtpVerified] = useState(false);
 
   // Password toggles
   const [showPassword, setShowPassword] = useState(false);
@@ -79,9 +79,8 @@ export default function Auth({ isLoginDefault = true }) {
     if (!email) errors.email = 'Email is required';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       errors.email = 'Please enter a valid email address';
-    if (!phone) errors.phone = 'Phone number is required';
-    else if (!/^\d{10}$/.test(phone))
-      errors.phone = 'Phone number must be exactly 10 digits';
+   if (phone && !/^\d{10}$/.test(phone))
+  errors.phone = 'Phone number must be exactly 10 digits';
     if (!pincode) errors.pincode = 'Pincode is required';
     else if (!/^\d{6}$/.test(pincode))
       errors.pincode = 'Pincode must be exactly 6 digits';
@@ -254,32 +253,17 @@ export default function Auth({ isLoginDefault = true }) {
               {fieldErrors.confirm && <p className="error">* {fieldErrors.confirm}</p>}
             </div>
 
-            <div className="form-group">
-              <label>Phone *</label>
-              <input
-                type="tel"
-                value={signupForm.phone}
-                onChange={e => setSignupForm({ ...signupForm, phone: e.target.value })}
-                disabled={isOtpVerified}
-                placeholder="Enter 10-digit phone number"
-              />
-              {fieldErrors.phone && <p className="error">* {fieldErrors.phone}</p>}
-              {!otpSent ? (
-                <button type="button" className="btn" onClick={sendOtp} disabled={isOtpVerified}>Send OTP</button>
-              ) : (
-                <>
-                  <input
-                    type="text"
-                    placeholder="Enter OTP"
-                    value={otp}
-                    onChange={e => setOtp(e.target.value)}
-                    disabled={isOtpVerified}
-                  />
-                  <button type="button" className="btn" onClick={verifyOtp} disabled={isOtpVerified}>Verify OTP</button>
-                </>
-              )}
-              {isOtpVerified && <p style={{ color: 'green' }}>Phone verified ✅</p>}
-            </div>
+           <div className="form-group">
+  <label>Phone</label>
+  <input
+    type="tel"
+    value={signupForm.phone}
+    onChange={e => setSignupForm({ ...signupForm, phone: e.target.value })}
+    placeholder="Enter 10-digit phone number (optional)"
+  />
+  {fieldErrors.phone && <p className="error">* {fieldErrors.phone}</p>}
+</div>
+
 
             <div className="checkbox-group">
               <input

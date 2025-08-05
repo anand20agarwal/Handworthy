@@ -1,0 +1,220 @@
+/* PhoneNoAuth.css - Styles for Phone Number Authentication Page */
+
+.phone-auth-bg {
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-auth-page {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.phone-auth-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.38);
+  padding: 32px 24px 24px 24px;
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.logo-center {
+  width: 100%;
+  justify-content: center;
+}
+
+.logo-img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.phone-auth-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: #222;
+  text-align: center;
+}
+
+.phone-auth-label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #333;
+  display: block;
+}
+
+.phone-auth-input-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.phone-auth-prefix {
+  background: #f2f2f2;
+  border: 1px solid #ddd;
+  border-radius: 6px 0 0 6px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  color: #555;
+  border-right: none;
+}
+
+.phone-auth-input {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 0 6px 6px 0;
+  outline: none;
+  transition: border 0.2s;
+  border-left: none;
+}
+
+.phone-auth-input:focus {
+  border-color: #2e7c26;
+}
+
+.phone-auth-btn {
+  width: 100%;
+  padding: 10px 0;
+  background: #2e7c26;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+
+.phone-auth-btn:disabled {
+  background: #b3d1ff;
+  cursor: not-allowed;
+}
+
+.phone-auth-error {
+  color: #d32f2f;
+  background: #fff0f0;
+  border: 1px solid #ffd6d6;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-top: 16px;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+.phone-auth-success {
+  color: #388e3c;
+  background: #e8f5e9;
+  border: 1px solid #b2dfdb;
+  border-radius: 6px;
+  padding: 10px 16px;
+  margin-top: 16px;
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+@media (max-width: 480px) {
+  .phone-auth-card {
+    padding: 20px 8px 16px 8px;
+    max-width: 98vw;
+  }
+  .logo-img {
+    width: 48px;
+    height: 48px;
+  }
+  .phone-auth-title {
+    font-size: 1.15rem;
+  }
+  .phone-auth-input-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .phone-auth-prefix {
+    border-radius: 6px 6px 0 0;
+    border-right: 1px solid #ddd;
+    border-bottom: none;
+    border-left: 1px solid #ddd;
+    border-top: 1px solid #ddd;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    width: 100%;
+    text-align: left;
+    padding: 10px 12px;
+  }
+  .phone-auth-input {
+    border-radius: 0 0 6px 6px;
+    border-top: none;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 1rem;
+  }
+  .phone-auth-btn {
+    font-size: 0.98rem;
+    padding: 10px 0;
+  }
+  .phone-auth-label {
+    font-size: 0.98rem;
+  }
+  .phone-auth-error, .phone-auth-success {
+    font-size: 0.92rem;
+    padding: 8px 8px;
+  }
+}
+
+@media (max-width: 768px) {
+  .phone-auth-card {
+    max-width: 95vw;
+    padding: 24px 8px 16px 8px;
+  }
+  .logo-img {
+    width: 54px;
+    height: 54px;
+  }
+  .phone-auth-title {
+    font-size: 1.25rem;
+  }
+  .phone-auth-input-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+  .phone-auth-prefix, .phone-auth-input {
+    width: 100%;
+    border-radius: 6px 6px 0 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .phone-auth-input {
+    border-radius: 0 0 6px 6px;
+    border-top: none;
+  }
+}

@@ -17,6 +17,42 @@
   box-sizing: border-box; /* ✅ includes padding/border inside height */
 }
 
+.searchbar-container {
+  position: relative;
+}
+
+.searchbar-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #eee;
+  border-top: none;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  border-radius: 0 0 4px 4px;
+  max-height: 200px;
+  max-width: 480px
+  ;
+  overflow-y: auto;
+}
+
+.searchbar-dropdown-item {
+  padding: 10px 16px;
+  cursor: pointer;
+  color: #222;
+  transition: background 0.15s;
+}
+.searchbar-dropdown-item:hover {
+  background: #f3f3f7;
+}
+
+.searchbar-no-results {
+  padding: 10px 16px;
+  color: #888;
+}
+
 @media (max-width: 599px) {
   .search-bar-pc {
     max-width: 150px;
