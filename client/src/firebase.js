@@ -3,16 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
 
-// Old config (commented for reference)
-// const firebaseConfig = {
-//   apiKey: "AIzaSyAaUeSe8yoR2kMGh1wD4cERJb4UGHGk2QY",
-//   authDomain: "handworthy-pvt-ltd-72b07.firebaseapp.com",
-//   projectId: "handworthy-pvt-ltd-72b07",
-//   storageBucket: "handworthy-pvt-ltd-72b07.firebasestorage.app",
-//   messagingSenderId: "710617179724",
-//   appId: "1:710617179724:web:f2752c3d95c2d83eb776e9",
-//   measurementId: "G-W6ZJ03GCXS"
-// };
+
 
 
 // New config for OTP testing (now using environment variables)
